@@ -1,0 +1,291 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;       /* body is a flex container */
+    flex-direction: column;  /* flex children (main, header, footer) stack vertically */
+    height: 100vh;  /* take up the full height of the viewport */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+}
+main {
+    flex: 1;  /* this makes main content stretch and take any available space, effectively pushing footer to the bottom */
+    background-color: #D9D9D9;
+}
+
+main, .content {
+    flex: 1; 
+    background-color: #D9D9D9;
+}
+
+footer, header {
+    background-color: #9BF78C;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    height: 60px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.logo {
+    width: 100px; 
+}
+
+.nav {
+    display: flex;
+    gap: 20px; 
+}
+
+.nav a, .login-btn {
+    text-decoration: none;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 20px;
+}
+
+.logo-footer {
+    margin-right: 20px; 
+    height: 40px;
+    width: auto;
+}
+
+.address, .contact {
+    margin: 0 5px; 
+    font-size: 0.9em; 
+}
+
+.address p, .contact p {
+    margin: 2px 0; 
+}
+
+.listing {
+    background-color: #FFF;
+    border: 2px solid black;
+    display: flex;
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    gap: 20px;
+}
+
+
+
+.listing .main-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border: 1px solid #000;
+    margin-bottom: 10px;
+    max-width: 350px;
+}
+
+.listing .more-images {
+    display: flex;
+    gap: 5px;
+    border: 2px solid #000;
+    padding: 5px;
+    align-items: center; 
+    /* width: 100%; */
+    justify-content: space-between;
+    min-width: 200px;  /* Adjust this value based on your needs */
+    
+}
+
+
+.listing .more-images img {
+    width: calc(33.33% - 5px);  /* Subtracting the gap */
+    height: 80px;
+    object-fit: cover;
+}
+
+
+
+.arrow-btn {
+    /* ... other properties ... */
+    overflow: visible;  /* Adjust overflow to visible */
+}
+
+.arrow-btn {
+    display: flex;
+    align-items: center;  /* Center the arrow vertically */
+    justify-content: center;  /* Center the arrow horizontally */
+    width: 40px;  /* Adjust width as needed */
+    height: 80px;  /* Match the height of the images */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    font-size: 30px;  /* Adjusted font size for bigger arrow */
+    font-weight: bold;    
+    color: #000;
+    padding-right: 10px; /* Padding to move arrow away from the border */
+    margin-left: -10px; /* Compensate for the added padding */
+}
+
+.listing .expand-images {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.listing .expand-images:hover {
+    background-color: #0056b3;
+}
+
+.listing .listing-info h2 {
+    text-align: center;
+    font-size: 0.9em; /* Adjust size if necessary */
+    margin-bottom: 8%;  /* Reduced space below title */
+}
+
+.listing .listing-info p {
+    text-align: center  ;
+    margin-bottom: 15px;  /* Less space before the price */
+    font-size: smaller;
+}
+
+
+.listing .listing-info {
+    max-width: 55%;
+    flex-grow: 1;
+    position: relative;
+}
+
+.price-info {
+    display: flex;
+    align-items: center; /* This will vertically center the child elements */
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border: 2px solid black;
+}
+
+.listing .listing-price {
+    display: flex; 
+    align-items: center; /* Vertically center the text */
+    font-weight: bold;
+    margin: 0;
+    font-size: 1.2em;
+    border-right: 2px solid black;  /* Solid line to the right of the price */
+    padding-right: 10px;  /* Padding to give space between the price and the line */
+    padding-left: 5px;  /* Padding to the left, makes it look more even */
+    line-height: 1; /* Adjust line height to tighten up space around text */
+}
+
+.listing .more-info {
+    background-color: #FFF;
+    color: #000;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none; 
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    line-height: 1; /* Adjust line height to tighten up space around text */
+}
+
+.listing .more-info:hover {
+    background-color: #f1f1f1;
+}
+
+/* Login Modal Styling */
+.login-modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.login-modal-content {
+    background-color: #FFF;
+    margin: 8% auto;
+    padding: 20px;
+    width: 50%;
+    border: 2px solid black;
+    text-align: center;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;  /* spacing between inputs */
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    background-color: #FFF;
+    border: 1px solid black;
+    padding: 10px;
+    flex: 1; /* equally divide space */
+    text-align: center;
+}
+
+.login-action {
+    display: inline-block;
+    background-color: #FFF;
+    border: 1px solid black;
+    padding: 10px 20px;
+    text-decoration: none; /* Remove underline from link */
+    color: black;
+}
+
+.close-btn {
+    cursor: pointer;
+    float: right;
+    font-size: 28px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-button {
+    background-color: #FFF;
+    border: 1px solid black;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.page-button:hover {
+    background-color: #f5f5f5;
+}
+
+.page-button.dots, .page-button.last {
+    width: auto;
+    padding: 0 10px;
+}
