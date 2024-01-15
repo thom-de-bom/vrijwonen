@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1); error_reporting(E_ALL);
-include "./assets/php/login.php";
-include "./assets/php/config.php";
+include_once "./assets/php/login.php";
+include_once "./assets/php/config.php";
 
 // Initialize variables
 $filtered_listings = [];
@@ -89,111 +89,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
     <style>
-
-    .filter-button {
-    display: flex;
-    background-color: #FFF;
-    border: 1px solid black;
-    padding: 10px 20px;
-    cursor: pointer;
-    max-width: 3%;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    margin-top: 10px;
-    text-decoration: none;
-}
-
-.bars {
-    margin-left: 10px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000;  /* This value ensures the modal is above most other elements */
-}
-
-.modal-content {
-    background-color: #FFF;
-    margin: 8% auto;
-    padding: 20px;
-    width: 50%;
-    z-index: 1001;  /* This value ensures the content is above the modal background */
-}
-
-
-.close-btn {
-    cursor: pointer;
-    float: right;
-    font-size: 28px;
-}
-
-
-.filterhouder{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 5%;
-}
-.ligging{
-    display: flex;
-    flex-direction: column;
-}
-.eigenschappen{
-    display: flex;
-    flex-direction: column;
-}
-
-.overig{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.page-button {
-    background-color: #FFF;
-    border: 1px solid black;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.page-button:hover {
-    background-color: #f5f5f5;
-}
-
-.page-button.dots, .page-button.last {
-    width: auto;
-    padding: 0 10px;
-}
-
-
-
-
     </style>
 </head>
 <body>
-<header>
+<!-- <header>
     <div class="container">
         <a href="index.php"><img class="logo" src="./assets/img/Vrijwonen_makelaar.png" alt="logo"></a>
         <div class="nav">
@@ -202,17 +103,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a href="./about.php">about</a>
         </div>
         <?php
-        include "./assets/php/header.php"
+       // include "./assets/php/header.php"
         ?>
     </div>
-</header>
+</header> -->
 
-<main>
+<!-- <main> -->
 
-<a href="#" id="filterBtn" class="filter-button">
-    Filters
-    <span class="bars">☰</span>
-</a>
+
 
 <div id="modal" class="modal">
     <div class="modal-content">
@@ -250,6 +148,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <div id="listingsContainer">
+<a href="#" id="filterBtn" class="filter-button">
+    Filters
+    <span class="bars">☰</span>
+</a>
     <?php foreach ($filtered_listings as $row): ?>
             <div class="listing">
                 <!-- Image section -->
@@ -278,8 +180,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
     <?php endforeach; ?>
-</div>
-
     <div class="pagination" style="padding-bottom: 10px;">
     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
         <a href="?page=<?php echo $i; ?>" class="page-button <?php echo $i == $currentPage ? 'active' : ''; ?>">
@@ -287,13 +187,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </a>
         <?php endfor; ?>
     </div>
+</div>
+
+    
 
 
 
 
-</main>
+<!-- </main> -->
 
-<footer>
+<!-- <footer>
     <img class="logo-footer" src="./assets/img/Vrijwonen_makelaar.png" alt="logo">
     <div class="address">
         <p>Disketteweg 2</p>
@@ -303,28 +206,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p>info@vrijwonen.nl</p>
         <p>033-1122334</p>
     </div>
-</footer>
-<!-- Login Modal -->
-<div id="loginModal" class="login-modal">
-    <div class="login-modal-content">
-        <span class="close-btn">&times;</span>
-        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
-            <!-- If the user is logged in, show the admin and logout buttons -->
-            <a href="./assets/php/admin.php" class="login-action">Go to Admin</a>
-            <a href="./assets/php/logout.php" class="login-action">Logout</a>
-        <?php else: ?>
-            <!-- If the user is not logged in, show the login form -->
-            <form method="post" action="./assets/php/login.php">
-                <div class="input-group">
-                    <input type="text" name="username" placeholder="Username">
-                    <input type="password" name="password" placeholder="Password">
-                </div>
-                <button type="submit" class="login-action">Login</button>
-            </form>
-        <?php endif; ?>
-    </div>
-</div>
-<script src="./assets/js/inlogmodal.js"></script>
+</footer> -->
+
 <script>
 // modal script
 let modal = document.getElementById('modal');
@@ -448,7 +331,8 @@ function updateListings(page) {
     }
 
     function updatePagination(totalItems, currentPage) {
-        let paginationContainer = document.querySelector('.pagination');
+    let paginationContainer = document.querySelector('.pagination');
+    if (paginationContainer) {
         paginationContainer.innerHTML = '';
         let totalPages = Math.ceil(totalItems / 3);
 
@@ -463,7 +347,10 @@ function updateListings(page) {
             });
             paginationContainer.appendChild(pageButton);
         }
+    } else {
+        console.error("Pagination container not found.");
     }
+}
 </script>
 
 

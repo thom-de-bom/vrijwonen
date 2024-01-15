@@ -1,5 +1,6 @@
 <?php
-include "./assets/php/login.php"
+
+include_once "./assets/php/login.php"
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,62 +8,13 @@ include "./assets/php/login.php"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
     <style>
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - /* header height */ 60px - /* footer height */ 60px); 
-    /* Adjust the heights in the calc() function based on your actual header and footer heights */
-}
-
-.overons {
-    margin-top: 0; /* Resetting margin-top to 0 as we are centering it using flexbox */
-    background-color: #FFF;
-    border: 2px solid black;
-    display: flex;
-    padding: 40px;  /* Increased from 20px to 40px for more space */
-    max-width: 900px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-}
-
-
-.overons-logo {
-    width: 185px; /* Setting fixed width */
-    height: 90px; /* Setting fixed height */
-    padding-right: 15px;
-    
-}
-
-.overons-content {
-    display: flex;
-    flex-direction: column;
-    width: 77.5%; /* Adjusted to ensure the total width is 100% */
-}
-
-.overons-content p.title {
-    margin: 0 0 10px 0;
-    font-size: 1.2em; 
-    text-align: center; 
-}
-
-.overons-content p {
-    color: #333; /* Making text a bit darker */
-    text-shadow: 1px 1px 2px rgba(255,255,255,0.5); /* Adding subtle shadow for better readability */
-    margin: 0;
-    font-size: 0.85em;
-    line-height: 1.4;
-    text-align: left;
-}
-
 
     </style>
 </head>
 <body>
-<header>
+<!-- <header>
     <div class="container">
         <a href="index.php"><img class="logo" src="./assets/img/Vrijwonen_makelaar.png" alt="logo"></a>
         <div class="nav">
@@ -71,13 +23,13 @@ main {
             <a href="./about.php">about</a>
         </div>
         <?php
-        include "./assets/php/header.php"
+        //include "./assets/php/header.php"
         ?>
     </div>
-</header>
+</header> -->
 
-<main>
-<div class="overons">
+<!-- <main> -->
+<div class="overons-about">
     <img class="overons-logo" src="./assets/img/Vrijwonen_makelaar.png" alt="logo">
     <div class="overons-content">
         <p class="title">over ons</p>
@@ -103,9 +55,9 @@ main {
     </div>
 </div>
 
-</main>
+<!-- </main> -->
 
-<footer>
+<!-- <footer>
     <img class="logo-footer" src="./assets/img/Vrijwonen_makelaar.png" alt="logo">
     <div class="address">
         <p>Disketteweg 2</p>
@@ -115,29 +67,7 @@ main {
         <p>info@vrijwonen.nl</p>
         <p>033-1122334</p>
     </div>
-</footer>
+</footer> -->
 
-<!-- Login Modal -->
-<div id="loginModal" class="login-modal">
-    <div class="login-modal-content">
-        <span class="close-btn">&times;</span>
-        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
-            <!-- If the user is logged in, show the admin and logout buttons -->
-            <a href="./assets/php/admin.php" class="login-action">Go to Admin</a>
-            <a href="./assets/php/logout.php" class="login-action">Logout</a>
-        <?php else: ?>
-            <!-- If the user is not logged in, show the login form -->
-            <form method="post" action="./assets/php/login.php">
-                <div class="input-group">
-                    <input type="text" name="username" placeholder="Username">
-                    <input type="password" name="password" placeholder="Password">
-                </div>
-                <button type="submit" class="login-action">Login</button>
-            </form>
-        <?php endif; ?>
-    </div>
-</div>
-
-<script src="./assets/js/inlogmodal.js"></script>
 </body>
 </html>
