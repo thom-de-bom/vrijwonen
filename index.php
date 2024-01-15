@@ -1,6 +1,6 @@
 <?php
-include "./assets/php/config.php";
-include "./assets/php/login.php";
+include_once "./assets/php/config.php";
+include_once "./assets/php/login.php";
 // Fetch a random listing
 $randomListingQuery = "SELECT * FROM listings ORDER BY RAND() LIMIT 1";
 $randomListingStmt = $pdo->query($randomListingQuery);
@@ -49,6 +49,8 @@ $randomListing = $randomListingStmt->fetch(PDO::FETCH_ASSOC);
     font-size: 0.85em;
     line-height: 1.4;
 }
+
+
 
     </style>
 </head>
@@ -146,7 +148,12 @@ $randomListing = $randomListingStmt->fetch(PDO::FETCH_ASSOC);
         <?php endif; ?>
     </div>
 </div>
+<script>
 
+
+
+
+</script>
 <script src="./assets/js/inlogmodal.js"></script>
 </body>
 </html>
