@@ -145,13 +145,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 
-
-
-<div id="listingsContainer">
 <a href="#" id="filterBtn" class="filter-button">
     Filters
     <span class="bars">☰</span>
 </a>
+
+<div id="listingsContainer">
+
     <?php foreach ($filtered_listings as $row): ?>
             <div class="listing">
                 <!-- Image section -->
@@ -175,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p><?php echo $row['beschrijving']; ?></p>
                     <div class="price-info">
                         <div class="listing-price"><?php echo '€ ' . $row['prijs']; ?></div>
-                        <button class="more-info">Meer Info</button>
+                        <button class="more-info" onclick="openDetailsModal(<?php echo $row['id']; ?>)">Meer Info</button>
                     </div>
                 </div>
             </div>
@@ -288,18 +288,30 @@ function updateListings(page) {
     }
 
     fetch('./assets/php/fetch_filtered_listings.php', {
-            method: 'POST',
-            body: filterData
-        })
-        .then(response => response.json())
-        .then(data => updateUI(data, page))
-        .catch(error => console.error('Error:', error));
+        method: 'POST',
+        body: filterData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.listings) {
+            updateUI(data, page);
+            // Ensure filter button is visible
+            document.getElementById('filterBtn').style.display = 'flex';
+        } else {
+            console.error('Invalid data format received:', data);
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
 
 
     function updateUI(data, currentPage) {
         let listingsContainer = document.querySelector('#listingsContainer');
-        listingsContainer.innerHTML = '';
+    if (!listingsContainer) {
+        console.error('Listings container not found.');
+        return;
+    }
+    listingsContainer.innerHTML = '';
 
         data.listings.forEach(listing => {
             let listingElement = document.createElement('div');
@@ -332,29 +344,38 @@ function updateListings(page) {
 
     function updatePagination(totalItems, currentPage) {
     let paginationContainer = document.querySelector('.pagination');
-    if (paginationContainer) {
-        paginationContainer.innerHTML = '';
-        let totalPages = Math.ceil(totalItems / 3);
+    if (!paginationContainer) {
+        // Create pagination container if it doesn't exist
+        paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination';
+        document.querySelector('#listingsContainer').appendChild(paginationContainer);
+    }
 
-        for (let i = 1; i <= totalPages; i++) {
-            let pageButton = document.createElement('a');
-            pageButton.href = `?page=${i}`;
-            pageButton.textContent = i;
-            pageButton.className = 'page-button ' + (i === currentPage ? 'active' : '');
-            pageButton.addEventListener('click', function(event) {
-                event.preventDefault();
-                updateListings(i);
-            });
-            paginationContainer.appendChild(pageButton);
-        }
-    } else {
-        console.error("Pagination container not found.");
+    paginationContainer.innerHTML = '';
+    let totalPages = Math.ceil(totalItems / 3);
+
+    for (let i = 1; i <= totalPages; i++) {
+        let pageButton = document.createElement('a');
+        pageButton.href = `javascript:void(0);`;
+        pageButton.textContent = i;
+        pageButton.className = 'page-button ' + (i === currentPage ? 'active' : '');
+        pageButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            updateListings(i);
+        });
+        paginationContainer.appendChild(pageButton);
     }
 }
 </script>
 
 
+<script>
 
+
+
+
+    
+</script>
 
 </body>
 </html>

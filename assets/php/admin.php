@@ -20,12 +20,6 @@ $query = "SELECT * FROM listings ORDER BY id DESC";
 $listings = $pdo->query($query);
 
 
-// Execute the query
-$statement->execute();
-
-// Fetch all the results
-$contact_submissions = $statement->fetchAll(PDO::FETCH_ASSOC);
-
 // Fetch all filters
 $allFiltersQuery = "SELECT * FROM filters";
 $allFiltersResult = $pdo->query($allFiltersQuery);
@@ -65,7 +59,7 @@ $totalPages = ceil($totalListings / $perPage);
 
 // Determine the current page number for contact submissions
 $contactPage = isset($_GET['contactPage']) ? (int)$_GET['contactPage'] : 1;
-$contactPerPage = 12; // Set the number of submissions per page
+$contactPerPage = 9; // Set the number of submissions per page
 $contactOffset = ($contactPage - 1) * $contactPerPage;
 
 // Fetch contact submissions with limit and offset for pagination
@@ -85,7 +79,7 @@ $totalContactPages = ceil($totalContactSubmissions / $contactPerPage);
 
 ?>
 
-<script>
+<!-- <script>
 // Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     // Attach event listener to close button
@@ -125,7 +119,7 @@ function closeTheModal() {
     document.getElementById('contactModal').style.display = 'none';
 }
 
-</script>
+</script> -->
 
 
 
@@ -212,8 +206,21 @@ padding: 3px;
     text-align: center;
 }
 
+
+.listing {
+    background-color: #FFF;
+    border: 2px solid black;
+    display: flex;
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    gap: 20px;
+    width: 93%;
+}
 .content-holder{
-    padding-inline: 10px;
+    padding-inline: 5px;
     padding-bottom: 10px;
     height: 90vh;
     margin-top: 50px;
@@ -223,14 +230,15 @@ padding: 3px;
     flex-direction: column;
     background-color: #FFF;
     /* overflow: auto; */
-    width: 50vw;
+    width: 55vw;
 }
 .everything-holder{
     width: 99vw;
     height: 100vh;
     display: flex;
     flex-direction: row;
-    gap: 20vw;
+    gap: 16vw;
+    margin-bottom: 5vh;
 }
 .station-holder{
     margin-top: 50px;
@@ -291,8 +299,7 @@ padding: 3px;
 }
 
 .filterhouder{
-    width: 30vw;
-    max-width: 30vw;
+    width: 50vw;
     max-height: 43vh;
     display: flex;
     flex-direction: column;
@@ -472,6 +479,20 @@ display: block;
     
 }
 
+.delete-submission{
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    border: 2px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
 .message-content {
   padding-left: 20px;
   flex-grow: 1;
@@ -545,6 +566,11 @@ display: block;
   margin-bottom: 10px;
   display: block;
 }
+
+#filter-name{
+    margin-left: 20px;
+}
+
 
 .radio-buttons label {
     display: inline-flex;
@@ -683,10 +709,18 @@ th {
     background-color: #4CAF50; /* Or any color to indicate the active page */
 }
 
+.pagination2{
+    display: flex;
+    justify-content: center;
+        margin-top: 2vh;
+}
+
+
+
     </style>
 </head>
 <body>
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('.filter-container form');
 
@@ -706,15 +740,11 @@ th {
         .catch(error => console.error('Error:', error));
     });
 });
-</script>
+</script> -->
 <header>
     <div class="container">
         <a href="../../index.php"><img class="logo" src="../img/Vrijwonen_makelaar.png" alt="logo"></a>
-        <div class="nav">
-            <a href="../../woningen.php">woningen</a>
-            <a href="../../contact.php">contact</a>
-            <a href="../../about.php">about</a>
-        </div>
+       
         <?php
         include "header.php"
         ?>
@@ -740,12 +770,13 @@ $totalContacts = $resultContacts->fetch(PDO::FETCH_ASSOC)['totalContacts'];
 <div class="everything-holder">
     <div class="station-holder">
             <div class="function-holder">
-                <div class="button-holder">
-                    <a href="#"><div class="geplaatste" >geplaatste woningen</div></a>
-                    <a href="#"><div class="nieuwe" >nieuwe woning plaatsen</div></a>
-                    <a href="#"><div class="contact ">contact berichten</div></a>
-                    <a href="#"><div class="filters ">filters</div></a>
-                </div>
+            <div class="button-holder">
+                <a href="#"><div class="button-holder geplaatste" data-content="default-content">Geplaatste woningen</div></a>
+                <a href="#"><div class="button-holder nieuwe" data-content="new-content">Nieuwe woning plaatsen</div></a>
+                <a href="#"><div class="button-holder contact" data-content="newer-content">Contact berichten</div></a>
+                <a href="#"><div class="button-holder filters" data-content="newest-content">Filters</div></a>
+            </div>
+
                 <div class="stat-holder">
                     <div class="stat">
                         <p>totaal aantal woningen</p>
@@ -870,7 +901,7 @@ $totalContacts = $resultContacts->fetch(PDO::FETCH_ASSOC)['totalContacts'];
     </div>
         </form>
 
-        <script>
+        <!-- <script>
 document.addEventListener("DOMContentLoaded", function() {
     const coverBox = document.getElementById('coverBox');
     const extraImagesBox = document.getElementById('extraImagesBox');
@@ -898,7 +929,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-</script>
+</script> -->
         </div>
 
 <div class="newer-content" style="display: none;">
@@ -911,16 +942,18 @@ document.addEventListener("DOMContentLoaded", function() {
              data-email="<?= htmlspecialchars($submission['email']); ?>"
              data-phone="<?= htmlspecialchars($submission['mobiel']); ?>"
              data-ip="<?= htmlspecialchars($submission['ip_address']); ?>" 
-             data-message="<?= htmlspecialchars($submission['bericht']); ?>"> <!-- This is only for storing the data -->
+             data-message="<?= htmlspecialchars($submission['bericht']); ?>">
             <span class="full-name"><?= htmlspecialchars($submission['volledige_naam']) ?></span>
             <span class="email"><?= htmlspecialchars($submission['email']) ?></span>
             <span class="phone-num"><?= htmlspecialchars($submission['mobiel']) ?></span>
+            <button class="delete-submission" onclick="deleteSubmission(<?= $submission['id']; ?>)">Verwijderen</button>
             <button class="view-details" onclick="openModal(<?= $submission['id']; ?>)">Inhoud</button>
         </div>
+
     <?php endforeach; ?>
     <div class="pagination2">
     <?php for ($i = 1; $i <= $totalContactPages; $i++): ?>
-        <a href="?contactPage=<?php echo $i; ?>" class="page-button <?php echo $i == $contactPage ? 'active' : ''; ?>">
+        <a href="?ShowContact=true&contactPage=<?php echo $i; ?>" class="page-button <?php echo $i == $contactPage ? 'active' : ''; ?>">
             <?php echo $i; ?>
         </a>
     <?php endfor; ?>
@@ -1089,7 +1122,7 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
 </div>
 
-<script>
+<!-- <script>
 
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.button-holder .nieuwe').addEventListener('click', function(e) {
@@ -1193,6 +1226,273 @@ function handleExtraImages(event) {
     // You can now process the extra images as you see fit
 }
 
+</script> -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Section handling button clicks to display different content
+    document.querySelector('.button-holder .nieuwe').addEventListener('click', toggleDisplay);
+    document.querySelector('.button-holder .geplaatste').addEventListener('click', toggleDisplay);
+    document.querySelector('.button-holder .contact').addEventListener('click', toggleDisplay);
+    document.querySelector('.button-holder .filters').addEventListener('click', toggleDisplay);
+
+    // Section handling URL parameters
+    handleURLParameters();
+
+    // Event listeners for file upload and drag and drop functionality
+    setupFileUploadListeners();
+
+    // Modal related functionality
+    setupModalFunctionality();
+
+    // Filter form submission
+    setupFilterFormSubmission();
+    
+    // Event listeners for file upload and drag and drop functionality
+    setupFileUploadListeners();
+
+    // Event listeners for pagination links
+    document.querySelectorAll('.pagination2 a').forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            var page = this.getAttribute('href').split('=')[1];
+            fetchContactSubmissions(page);
+        });
+    });
+
+    // Setup AJAX form submission for adding filters
+    const addFilterForm = document.querySelector('.filter-container form');
+    addFilterForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        submitFormAjax(addFilterForm, 'save_filter.php');
+    });
+
+    // Setup AJAX form submission for deleting filters
+    const deleteFilterForm = document.querySelector('.remove-filter-container form');
+    deleteFilterForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        submitFormAjax(deleteFilterForm, 'delete_filter.php');
+    });
+
+});
+
+function toggleDisplay(e) {
+    e.preventDefault();
+    const targetContent = e.target.getAttribute('data-content');
+    document.querySelectorAll('.content-holder > div').forEach(div => {
+        div.style.display = div.classList.contains(targetContent) ? 'block' : 'none';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners to buttons
+    document.querySelectorAll('.button-holder').forEach(button => {
+        button.addEventListener('click', toggleDisplay);
+    });
+});
+
+
+function handleURLParameters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const showFilters = urlParams.get('showFilters');
+    const showCreate = urlParams.get('showCreate');
+    const showListing = urlParams.get('showListing');
+    const ShowContact = urlParams.get('ShowContact');
+
+    // Add additional conditions as needed
+    if (showFilters === 'true') {
+    document.querySelector('.filters').click();
+    } else if (showCreate === 'true') {
+        document.querySelector('.nieuwe').click();
+    } else if (showListing === 'true') {
+        // Show listing content
+    } else if (ShowContact === 'true') {
+        document.querySelector('.contact').click();
+    } else {
+        // show default content
+    }
+}
+
+
+function setupFileUploadListeners() {
+    const coverBox = document.getElementById('coverBox');
+    const extraImagesBox = document.getElementById('extraImagesBox');
+    const coverInput = document.getElementById('coverInput');
+    const extraImagesInput = document.getElementById('extraImagesInput');
+
+    coverBox.onclick = () => coverInput.click();
+    extraImagesBox.onclick = () => extraImagesInput.click();
+
+    coverInput.addEventListener('change', handleCoverImage);
+    extraImagesInput.addEventListener('change', handleExtraImages);
+}
+
+function handleCoverImage(event) {
+    const files = event.target.files;
+
+    if (files.length > 1) {
+        alert("Only one cover image allowed.");
+        return;
+    }
+
+    // You can now process the cover image as you see fit
+}
+
+function handleExtraImages(event) {
+    const files = event.target.files;
+
+    if (files.length > 5) {
+        alert("Only a maximum of 5 extra images allowed.");
+        return;
+    }
+
+    // You can now process the extra images as you see fit
+}
+
+function setupModalFunctionality() {
+    var closeButton = document.getElementById('closeModal');
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            document.getElementById('contactModal').style.display = 'none';
+        });
+    }
+
+    window.openModal = function(submissionId) {
+        var submission = document.querySelector('.contact-submission[data-id="' + submissionId + '"]');
+        if (submission) {
+            document.getElementById('modalName').textContent = submission.dataset.name;
+            document.getElementById('modalEmail').textContent = submission.dataset.email;
+            document.getElementById('modalPhone').textContent = submission.dataset.phone;
+            document.getElementById('modalIp').textContent = submission.dataset.ip;
+            document.getElementById('modalMessage').textContent = submission.dataset.message;
+        }
+        document.getElementById('contactModal').style.display = 'block';
+    };
+
+    window.onclick = function(event) {
+        var modal = document.getElementById('contactModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+}
+
+
+function submitFormAjax(form, url) {
+    const formData = new FormData(form);
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'success') {
+            console.log(data.message); // Show success message
+            // Optionally, update the UI to reflect the changes
+        } else {
+            console.error(data.message); // Show error message
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function setupFileUploadListeners() {
+    const coverBox = document.getElementById('coverBox');
+    const extraImagesBox = document.getElementById('extraImagesBox');
+    const coverInput = document.getElementById('coverInput');
+    const extraImagesInput = document.getElementById('extraImagesInput');
+
+    coverBox.onclick = () => coverInput.click();
+    extraImagesBox.onclick = () => extraImagesInput.click();
+
+    coverInput.addEventListener('change', function() {
+        updateImageText(coverInput, 'coverBoxText', 'Drop Cover Image Here');
+    });
+
+    extraImagesInput.addEventListener('change', function() {
+        var count = extraImagesInput.files ? extraImagesInput.files.length : 0;
+        document.getElementById('extraImagesBoxText').textContent = count > 0 ? count + " image(s) selected" : "Drop Extra Images Here (Max 5)";
+    });
+}
+
+function updateImageText(inputElement, displayElementId, defaultText) {
+    var count = inputElement.files ? inputElement.files.length : 0;
+    var displayElement = document.getElementById(displayElementId);
+    displayElement.textContent = count > 0 ? count + " image(s) selected" : defaultText;
+}
+
+
+function fetchContactSubmissions(page) {
+    // Show loading indicator (optional)
+
+    fetch('./path_to_your_fetch_contact_submissions_endpoint.php?page=' + page)
+        .then(response => response.json())
+        .then(data => {
+            updateContactSubmissions(data);
+            // Hide loading indicator (optional)
+        })
+        .catch(error => {
+            console.error('Error fetching contact submissions:', error);
+            // Hide loading indicator (optional)
+        });
+}
+
+function updateContactSubmissions(data) {
+    const submissionsList = document.querySelector('.contact-submissions-list');
+    submissionsList.innerHTML = '';
+
+    data.submissions.forEach(submission => {
+        const submissionElement = document.createElement('div');
+        submissionElement.className = 'contact-submission';
+        submissionElement.setAttribute('data-id', submission.id);
+        // Set other data attributes as needed
+        submissionElement.innerHTML = `
+            <span class="full-name">${submission.volledige_naam}</span>
+            <span class="email">${submission.email}</span>
+            <span class="phone-num">${submission.mobiel}</span>
+            <button class="view-details" onclick="openModal(${submission.id})">Inhoud</button>
+        `;
+
+        submissionsList.appendChild(submissionElement);
+    });
+     // Update pagination if needed
+    // ... Pagination update logic ...
+}
+
+function deleteSubmission(id) {
+    if (!confirm("Weet u zeker dat u deze inzending wilt verwijderen?")) {
+        return; // Stop if the user cancels the action
+    }
+
+    // Send AJAX request to server to delete the submission with the given ID
+    fetch('delete_submission.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'id=' + id
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove the submission element from the page
+            document.querySelector('.contact-submission[data-id="' + id + '"]').remove();
+        } else {
+            alert("Er is een fout opgetreden bij het verwijderen van de inzending.");
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 </script>
+
+
+
+
+
+
 </body>
 </html>

@@ -54,8 +54,13 @@ include_once "./assets/php/login.php"
 if (isset($_GET['status'])) {
     if ($_GET['status'] === 'success') {
         echo '<p class="success-notification">Your message has been successfully submitted!</p>';
+        header("Location: index.php");
+        exit();
+
     } elseif ($_GET['status'] === 'error') {
         echo '<p class="error-notification">There was an error submitting your form. Please try again.</p>';
+        header("Location: index.php");
+        exit();
     }
 }
 
