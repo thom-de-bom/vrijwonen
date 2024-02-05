@@ -140,6 +140,7 @@ function closeTheModal() {
     gap: 7vh;
     margin-top: 5vh;
     margin-left: 10vw;
+    align-items: center;
 }
 
 .button-holder{
@@ -714,6 +715,46 @@ th {
     justify-content: center;
         margin-top: 2vh;
 }
+/* listing modal */
+
+
+.details-modal, #woningenDetailsModal {
+    display: none;
+    position: fixed;
+    z-index: 2000; /* Increased z-index */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+
+.details-modal-content {
+    background-color: #fefefe;
+    margin: 6% auto auto auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    overflow: auto;
+    max-height: 70vh;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 
 
@@ -786,10 +827,6 @@ $totalContacts = $resultContacts->fetch(PDO::FETCH_ASSOC)['totalContacts'];
                         <p>open contact berichten</p>
                         <div><p><?php echo $totalContacts; ?></p></div>
                     </div>
-                    <div class="stat">
-                        <p>unieke bezoekers deze maand</p>
-                        <div><p>123</p></div> <!-- Placeholder for now -->
-                    </div>
                 </div>
             </div>
     </div>
@@ -820,7 +857,7 @@ $totalContacts = $resultContacts->fetch(PDO::FETCH_ASSOC)['totalContacts'];
                 <!-- New container for price and button -->
                 <div class="price-info">
                     <div class="listing-price">€<?php echo $listing['prijs']; ?></div>
-                    <button class="more-info">Meer Info</button>
+                    <button class="more-info" data-id="<?= $row['id']; ?>" onclick="openDetailsModal(<?= $row['id']; ?>, 'woningen')">Meer Info</button>  
                 </div>
             </div>
         </div>
@@ -1493,6 +1530,19 @@ function deleteSubmission(id) {
 
 
 
+<!-- Detailed View Modal specific for Woningen -->
+<div id="woningenDetailsModal" class="details-modal">
+    <div class="details-modal-content">
+        <span class="close-details-modal">&times;</span>
+        <div class="details-content">
+            <!-- Listing details will be loaded here -->
+        </div>
+    </div>
+</div>
+</body>
+
+
+<script src="../js/detailsmodal.js"></script>
 
 </body>
 </html>

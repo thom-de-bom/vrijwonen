@@ -223,7 +223,9 @@ section {
     top: 0;
     left: 0;
     display: none;
+    z-index: 10; /* Ensures that slides are below the modal */
 }
+
  
 .slidertog {
     position: fixed;
@@ -237,6 +239,7 @@ section {
 
 .slide-active {
     display: block;
+    z-index: 10; /* Ensures that the active slide is below the modal */
 }
 
 .slide-from-top {
@@ -336,7 +339,7 @@ section {
 
 
 header,footer{
-    z-index: 1;
+    z-index: 9999;
 }
 
 
@@ -584,10 +587,10 @@ textarea {
 
 /* listing modal */
 
-.details-modal {
+.details-modal, #woningenDetailsModal {
     display: none;
     position: fixed;
-    z-index: 9999; /* Adjusted to be higher than any other element */
+    z-index: 2000; /* Increased z-index */
     left: 0;
     top: 0;
     width: 100%;
@@ -595,6 +598,7 @@ textarea {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
 }
+
 
 
 .details-modal-content {
@@ -743,7 +747,6 @@ textarea {
 <!-- Login Modal -->
 <div id="loginModal" class="login-modal">
     <div class="login-modal-content">
-        <span class="close-btn">&times;</span>
         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
             <!-- If the user is logged in, show the admin and logout buttons -->
             <a href="./assets/php/admin.php" class="login-action">Go to Admin</a>
@@ -760,95 +763,9 @@ textarea {
         <?php endif; ?>
     </div>
 </div>
-<script>
-function openDetailsModal(listingId) {
-    // Fetch listing details using the listing ID
-    fetch(`./assets/php/fetch_listing_details.php?id=${listingId}`)
-        .then(response => response.json())
-        .then(listing => {
-            const modalContent = document.querySelector('.details-content');
 
-            // Check if extra_images is a string and split it into an array
-            let extraImagesArray = [];
-            if (listing.extra_images && typeof listing.extra_images === 'string') {
-                extraImagesArray = listing.extra_images.split(',');
-            }
-
-            // Generate the HTML for the filters
-            const liggingList = listing.ligging ? `<ul>${listing.ligging.map(item => `<li>${item}</li>`).join('')}</ul>` : '';
-            const eigenschappenList = listing.eigenschappen ? `<ul>${listing.eigenschappen.map(item => `<li>${item}</li>`).join('')}</ul>` : '';
-
-            // Populate the modal with listing details and the filters
-            modalContent.innerHTML = `
-            <div class="img-and-text">
-                <div class="imgs-holder">
-                    <img src="./assets/php/${listing.cover_image_path}" class="main-img" alt="Main Image">
-                    <div class="detail-listing-images">
-                        ${extraImagesArray.map(image => image.trim() ? `<img src="./assets/php/${image.trim()}" alt="Image">` : '').join('')}
-                    </div>
-                </div>    
-                <div class="detail-text">            
-                    <h2>${listing.address}</h2>
-                    <p>${listing.beschrijving}</p>
-                </div>
-            </div>      
-                <div class="filter-and-button"> 
-                    <div class="filter-lists">
-                        <div class="details-ligging">
-                            <h3>Ligging</h3>
-                            ${liggingList}
-                        </div>
-                        <div class="details-eigenschappen">
-                            <h3>Eigenschappen</h3>
-                            ${eigenschappenList}
-                        </div>
-                    </div>
-                    <div class="neem-contact">
-                        <a href="javascript:void(0);" class="neem-contact-link">neem contact</a>
-                        <div class="detail-price-info">€${listing.prijs}</div>
-                    </div>
-                </div> 
-                <!-- Add more details as needed -->
-            `;
-             // Add click event listener for the neem contact link
-        modalContent.querySelector('.neem-contact-link').addEventListener('click', function() {
-            closeModalAndNavigateToContact();
-        });
-            document.getElementById('detailsModal').style.display = 'block';
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-function closeModalAndNavigateToContact() {
-    // Close the modal
-    document.getElementById('detailsModal').style.display = 'none';
-
-    // Navigate to the contact slide
-    navigateToSlide('contact');
-}
-
-function navigateToSlide(slideId) {
-    // Assuming you have a function to navigate to slides
-    // This will simulate a click on the navigation link for the contact section
-    document.getElementById(`nav${slideId.charAt(0).toUpperCase() + slideId.slice(1)}`).click();
-}
-
-
-// Close the modal when the user clicks on <span> (x)
-document.querySelector('.close-details-modal').onclick = function() {
-    document.getElementById('detailsModal').style.display = 'none';
-}
-
-// Close the modal when the user clicks anywhere outside of the modal
-window.onclick = function(event) {
-    const modal = document.getElementById('detailsModal');
-    if (event.target == modal) {
-        modal.style.display = 'none';
-    }
-}
-
-</script>
 <script src="./assets/js/inlogmodal.js"></script>
 <script src="./assets/js/slider.js"></script>
 </body>
 </html>
+<script src="./assets/js/detailsmodal.js"></script>

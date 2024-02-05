@@ -175,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p><?php echo $row['beschrijving']; ?></p>
                     <div class="price-info">
                         <div class="listing-price"><?php echo '€ ' . $row['prijs']; ?></div>
-                        <button class="more-info" onclick="openDetailsModal(<?php echo $row['id']; ?>)">Meer Info</button>
+                        <button class="more-info" data-id="<?= $row['id']; ?>" onclick="openDetailsModal(<?= $row['id']; ?>, 'woningen')">Meer Info</button>
                     </div>
                 </div>
             </div>
@@ -331,7 +331,7 @@ function updateListings(page) {
                     <p>${listing.beschrijving || ''}</p>
                     <div class="price-info">
                         <div class="listing-price">€${listing.prijs || ''}</div>
-                        <button class="more-info">Meer Info</button>
+                        <button class="more-info" data-id="${listing.id}" data-modal-type="woningen">Meer Info</button>
                     </div>
                 </div>
             `;
@@ -368,14 +368,18 @@ function updateListings(page) {
 }
 </script>
 
-
-<script>
-
-
-
-
-    
-</script>
-
+<!-- Detailed View Modal specific for Woningen -->
+<div id="woningenDetailsModal" class="details-modal">
+    <div class="details-modal-content">
+        <span class="close-details-modal">&times;</span>
+        <div class="details-content">
+            <!-- Listing details will be loaded here -->
+        </div>
+    </div>
+</div>
 </body>
+
+
+<script src="./assets/js/detailsmodal.js"></script>
+
 </html>
